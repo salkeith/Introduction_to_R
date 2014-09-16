@@ -1,6 +1,6 @@
 # SK 29/08/2014
 
-# Macroecology Course, University of Copenhagen
+# Macroecology & Community Ecology, University of Copenhagen
 # Introduction to R exercise
 
 
@@ -19,7 +19,7 @@
 # (notice on the command screen you need to press Enter to move to the next plot)
 demo(graphics)
 
-
+rm(list=ls())
 
 
 #################################################
@@ -28,7 +28,18 @@ demo(graphics)
 
 ################################################
 
+# Load the example dataset of species range sizes
+# There are many values in this vector. 
+# This is where R is very useful because you don't need to SEE the data,
+# you just need to know it is contained in an object.
 load("Range size.RData")
+# The object it will load is called "range.size"
+
+# view the first 20 elements (species)
+head(range.size,20)
+# how many species ranges are included in this object?
+length(range.size)
+
 
 # draw a HISTOGRAM of a single variable
 hist(range.size)
@@ -37,13 +48,15 @@ hist(range.size,breaks=20)
 # add a min and max value for the x axis
 hist(range.size,breaks=20,xlim=c(0,10000))
 # add main title and x axis label
-hist(range.size,breaks=20,xlim=c(0,10000),main="Area of occupancy",xlab="Range size")
+hist(range.size,breaks=20,xlim=c(0,10000),main="Species range size",xlab="Range size")
 # change the colour
-hist(range.size,breaks=20,xlim=c(0,10000),main="Area of occupancy",xlab="Range size",col=3)
+hist(range.size,breaks=20,xlim=c(0,10000),main="Species range size",xlab="Range size",col=3)
+
 
 ############################################################
 ####### SAVE A COPY OF THIS LAST PLOT FOR YOUR REPORT ######
 ############################################################
+
 
 # reproduce as a DENSITY plot
 # first, calculate the density
@@ -93,15 +106,16 @@ lines(sp$SpeciesA,type="l",col="red")
 lines(sp$SpeciesC,type="l",col="black")
 lines(sp$SpeciesD,type="l",col="green")
 
+
 ############################################################
 ####### SAVE A COPY OF THIS LAST PLOT FOR YOUR REPORT ######
 ############################################################
+
 
 # plot two species against each other - are the abundances correlated?
 plot(sp$SpeciesA, sp$SpeciesB)
 
 # draw multiple plots in the same window
-windows()
 par(mfcol=c(2,2))
 plot(sp$SpeciesA,type="l")
 plot(sp$SpeciesB,type="l")
@@ -142,6 +156,7 @@ matplot(sp[,2:5],type="l",ylim=c(0,100))
 # add a legend - here you are specifying where to put it,
 # what each entry should be called, what line types and colours they are
 legend("topleft",colnames(sp[,2:5]),lty=1:4,col=1:4)
+
 
 ############################################################
 ####### SAVE A COPY OF THIS LAST PLOT FOR YOUR REPORT ######

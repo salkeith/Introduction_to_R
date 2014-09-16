@@ -1,4 +1,4 @@
-# SK 03/04/2012
+# SK 05/09/2014
 
 #####################################
 
@@ -6,91 +6,108 @@
 
 #####################################
 
-# FOR HELP: http://www.statmethods.net/stats/index.html
+# FOR HELP: 
+# Getting started with R: An Introduction for Biologists
+# http://www.statmethods.net/stats/index.html
 
 
 
 #####################################
 
-# read in data
-sp <- read.csv("species abundance.csv")
-sp
+# 1. READ IN THE EXAMPLE DATA
+
+#####################################
+
+# These data tell you the genus richness of macroalgae (seaweed!) and 
+# the value of some environmental variables at 354 sites.
+# The extent of the dataset is global.
+# These data were used for Keith et al. 2014. Global Ecology & Biogeography 23:517-529.
+# and are free to download on Figshare ()
+
+ma.rich <- read.csv("MacroalgaeGenusRichness.csv")
+ma.rich
+# there is too much to see in one go!
+
+# Just look at the top few rows so you can see what is in the columns
+head(ma.rich)
+nrow(ma.rich) # how many rows are in the dataframe?
+
+# plot the points by longitude and latitude
+# can you kind of see the outlines of some land masses?
+plot(ma.rich$Lat,ma.rich$Long)
+
+# To decide which statistics to use, we need to know if the richness normally distributed?
+# Have a look at the data by plotting a histogram
+hist(ma.rich$GenusRich)
+# This shows us we have lots of sites with low richness and few with high richness
+
+# So a square root transformation will help....
+sqrt.rich <- sqrt(ma.rich$GenusRich)
+hist(sqrt.rich)
+# much better!
+# a column already exists in the dataframe with square root of genus
 
 
 
-# T-test (paired)
-t.test(sp[,1], sp[,5], paired=T)
-t.test(sp[,1], sp[,3], paired=T)
-
-# non-parametric version i.e. wilcoxon test
-wilcox.test(sp[,1], sp[,5], paired=T)
-
-# Kruskal-wallis test
-# requires a grouping vector
-group <- rep(c(1,2,3,4,5),5)
-kruskal.test(sp$SpeciesD,group)
-
-# Chi-squared test - needs to be in contingency table format
-pa <- c(1,0,0,1,1,0,0,0,0,0,1,1,0,1,0,0,1,0,0,1,0,0,0,0,1,0,0,1)
-pres.abs <- table(pa)
-# test: are the proportions equal? check help so you always know
-# you are getting the p value the right way around
-chisq.test(pres.abs, correct=T)
 
 
-#######################
-# REGRESSION
+#####################################
+
+# 2. CORRELATION BETWEEN 2 VARIABLES
+
+#####################################
+
 
 # Correlation - two variables
-cor.test(sp[,1], sp[,4], method="pearson")
+# Is minimum sea surface temperature (SST) correlated with maximum SST?
+cor.test(ma.rich$SST.MIN, ma.rich$SST.MAX, method="pearson")
+# can you see the correlation if you plot these data?
+plot(ma.rich$SST.MIN, ma.rich$SST.MAX)
+
 
 ############################################################
-####### REPORT THE RESULT OF THIS TEST IN YOUR REPORT ######
+####### RECORD THE RESULT OF THIS TEST IN YOUR REPORT ######
 ############################################################
+
 
 # Get a correlation matrix i.e. correlations of multiple variables
-cor(sp, method="spearman")
+cor(ma.rich, method="spearman")
+# produce one window with scatterplots of all columns against all other columns
+pairs(ma.rich)
+# you can see some clear correlations here! 
+# Which variables are they? Do they make sense?
+
+
+
+
+#####################################
+
+# 3. LINEAR REGRESSION
+
+#####################################
+
 
 # linear regression
-fit <- lm(SpeciesC ~ Temp, data=sp)
+fit <- lm ( sqrtGenusRich ~ SST.MEAN , data = ma.rich )
 summary(fit)
 # the plot command below on an 'lm' object will give you lots of 
 # diagnostic plots (for help: http://www.statmethods.net/stats/rdiagnostics.html)
+par(mfcol=c(2,2))  # this sets up the window so you can create 4 plots in 1 window
 plot(fit)
 
-############################################################
-####### REPORT THE RESULTS OF THIS TEST IN YOUR REPORT #####
-############################################################
 
-# multiple regression
-fit2 <- lm(SpeciesC ~ Temp + Rainfall, data=sp)
+# multiple regressions include more than one predictor variable
+# Does it improve the model if we also include phosphate?
+fit2 <- lm ( sqrtGenusRich ~ SST.MEAN + PHOS, data = ma.rich )
 summary(fit2)
 plot(fit2)
 
-# logistic regression
-fitlogi <- glm(present ~ Temp + Rainfall, family = binomial(), data=sp)
-summary(fitlogi)
 
-# Lots of other possibilities with function 'glm'
-# e.g., with different family types
-
+############################################################
+###### RECORD THE RESULTS OF THIS TEST IN YOUR REPORT ######
+#### include adjusted-R2, p value, coefficient estimate ####
+############################################################
 
 
-#######################
-# MULTIVARIATE
 
-wood <- read.csv('woodland matrix.csv')
-# check
-wood[1:10,1:10]
-# assign species names to row names rather than having them as a column
-# this prevents them being treated as 'data'
-rownames(wood) <- wood[,1]
-wood <- wood[,-1]
-wood[1:10,1:10]
 
-# Non-Metric Multidimensional Scaling (NMMDS)
-library(vegan)
-# make sure the rows and columns are the right way around
-woodt <- t(wood)
-mds <- metaMDS(woodt, trymax=20)
-plot(mds,display="sites")

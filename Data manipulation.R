@@ -1,13 +1,72 @@
 # SK 29/08/2014
 
-# Macroecology Course, University of Copenhagen
+# Macroecology & Community Ecology, University of Copenhagen
 # Introduction to R exercise
 
 
 
 #################################################
 
-# 1. HOW TO READ IN DATA (the easiest way)
+# 1. USING R AS A CALCULATOR
+
+################################################
+
+# add numbers
+2 + 2
+# multiple numbers
+2 * 2
+# raise a number to a power
+2 ^ 2
+# add two numbers and then multiply them by 2
+2 * ( 2 + 2 )
+
+
+
+#################################################
+
+# 2. CREATE NEW OBJECTS
+
+################################################
+
+# create vector, assign it to an object called "d"
+d <- c(1,2,3,4,5,6)
+# see what "d" contains
+d
+
+# create new object which has 1 added to every element of vector d
+d2 <- d + 1
+d2
+
+# join the two vectors to create a dataframe with 2 columns
+cbind(d,d2)
+# or as two rows
+rbind(d,d2)
+
+# join the two vectors into a single vector called d3
+d3 <- c(d,d2)
+
+# rearrange d3 to create a matrix with 3 rows and 4 columns
+matrix(d3,nrow=3,ncol=4)
+
+# create vector that is a sequence
+1:15
+seq(from = 1 , to = 15 , by = 1)
+seq(from = 3 , to = 15 , by = 2)
+
+# create a vector that repeats 
+rep(2,8)
+rep(c(2,3),8)
+
+# generate a vector of 10 random numbers between 0 and 1
+runif(10,0,1)
+ 
+
+
+
+
+#################################################
+
+# 3. HOW TO READ IN DATA (the easiest way)
 
 ################################################
 
@@ -20,7 +79,7 @@ setwd("D://R folder")
 # you can output almost any spreadsheet or text file as a ".csv" file.
 # this is a very useful format.
 # read in the example csv file "species abundance.csv" with the following function.
-d <- read.csv("species abundance.csv")
+d <- read.csv("MacroalgaeGenusRichness.csv")
 # here we have named it "d" but you can assign it any name you want
 
 # check it read in ok by looking at the first few rows
@@ -34,7 +93,7 @@ str(d)
 
 ######################################
 
-# 2. VECTOR MANIPULATION
+# 4. VECTOR MANIPULATION
 
 ######################################
 
@@ -55,7 +114,7 @@ dc
 # reverse order of vector
 rev(d)
 
-# combining vectors into dataframes
+# combine these vectors into a dataframe
 d2 <- d+1
 d2
 d3 <- cbind(d,d2)
@@ -68,7 +127,7 @@ d4
 
 ######################################
 
-# 3. DATAFRAME MANIPULATION
+# 5. DATAFRAME MANIPULATION
 
 ######################################
 
@@ -76,9 +135,11 @@ d4
 
 # add row names
 rownames(d4) <- c("richness","abundance")
+d4
 
 # add column names
 colnames(d3) <- c("richness","abundance")
+d4
 
 # transpose dataframe (i.e., switch rows and columns)
 t(d4)
