@@ -4,6 +4,15 @@
 # Introduction to R exercise
 
 
+#################################################
+################################################
+
+# EXERCISE 2. DATA VISUALIZATION
+
+################################################
+################################################
+
+
 
 #################################################
 
@@ -64,53 +73,7 @@ hist(gr,breaks=20,xlim=c(0,500))
 # add main title and x axis label
 hist(gr,breaks=20,xlim=c(0,500),main="Macroalgae Richness",xlab="Genus richness")
 # change the colour
-hist(gr,breaks=20,xlim=c(0,500),main="Macroalgae Richness",xlab="Genus richness",col=3)
-
-
-# Reproduce as a DENSITY plot
-# This gives you a smoothed line
-
-# First, calculate the density
-d <- density(gr,bw="nrd")
-# then plot the result
-plot(d,xlim=c(0,600),col=2,main="Density Genus Richness",xlab="Genus richness")
-# now get density of another variable
-# (here we have just added 1000 to each value in AOO)
-d2 <- density(gr+100,bw="nrd")
-# plot lines on top of existing plot
-lines(d2)
-
-# BOXPLOTS
-# plot one variable as a boxplot.
-# Boxplots show the median (middle line), 1st & 3rd quartiles (box)
-boxplot(mgr$SST.MEAN)
-# now plot three variables side by side. Select the columns from the dataframe with [row,column]
-boxplot(mgr[,9:11])
-# add a notch - it looks nicer!
-boxplot(mgr[,9:11],notch=TRUE)
-
-
-############################################################
-#######               FOR YOUR REPORT 1               ######
-#######                    START                      ######
-############################################################
-
-## TRY PLOTTING SOME HISTORGRAMS OF OTHER VARIABLES IN THE DATASET
-## You can use the "hist" function below - remove the hashtag and replace the dots with a column name
-## build up a nice plot by inserting extra arguments as we did above.
-
-colnames(mgr)  # this will tell you what the columns are called
-
-# hist(mgr$....)
-
-## COPY AND PASTE AN EXAMPLE HISTOGRAM INTO YOUR REPORT
-## DISCUSS WHAT IT SHOWS
-
-############################################################
-#######               FOR YOUR REPORT 1               ######
-#######                     END                       ######
-############################################################
-
+hist(gr,breaks=20,xlim=c(0,500),main="Macroalgae Richness",xlab="Genus richness",col="dark green")
 
 
 
@@ -128,7 +91,7 @@ plot(mgr$Long,mgr$Lat)
 
 
 ############################################################
-#######               FOR YOUR REPORT 2               ######
+#######               FOR YOUR REPORT 1               ######
 #######                    START                      ######
 ############################################################
 
@@ -139,10 +102,9 @@ colnames(mgr)  # this will tell you what the columns are called
 ## COPY AND PASTE THIS PLOT INTO YOUR REPORT AND DESCRIBE
 
 ############################################################
-#######               FOR YOUR REPORT 2               ######
+#######               FOR YOUR REPORT 1               ######
 #######                     END                       ######
 ############################################################
-
 
 
 # produce some scatterplots of the relationship between
@@ -163,18 +125,11 @@ plot(mgr$SST.MAX,mgr$SST.MIN,pch=1,col="blue")
 
 # Have a look at how the environmental variables in this dataset are related to each other
 
-# Plot multiple panels in the same window
-# The following code will set up a 2 x 2 plot
-par(mfcol=c(2,2))
-plot(mgr$SST.MAX,mgr$SST.MIN,pch=1,col="blue")
-plot(mgr$SST.MAX,mgr$SST.MEAN,pch=1,col="black")
-plot(mgr$SST.MAX,mgr$PAR,pch=1,col="red")
-plot(mgr$SST.MAX,mgr$SALINITY,pch=1,col="dark green")
 
 
 
 ############################################################
-#######               FOR YOUR REPORT 3               ######
+#######               FOR YOUR REPORT 2               ######
 #######                    START                      ######
 ############################################################
 
@@ -188,7 +143,7 @@ colnames(mgr)  # this will tell you what the columns are called
 ## AND DISCUSS THEM
 
 ############################################################
-#######               FOR YOUR REPORT 3               ######
+#######               FOR YOUR REPORT 2               ######
 #######                     END                       ######
 ############################################################
 

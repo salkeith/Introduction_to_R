@@ -4,12 +4,13 @@
 # Introduction to R exercise
 
 
+#################################################
+################################################
 
-#####################################
+# EXERCISE 3. BASIC STATISTICS
 
-# BASIC STATISTICS
-
-#####################################
+################################################
+################################################
 
 # FOR HELP: 
 # Getting started with R: An Introduction for Biologists
@@ -19,27 +20,9 @@
 
 #####################################
 
-# 1. READ IN THE EXAMPLE DATA
+# 1. DATA NORMALITY
 
 #####################################
-
-# These data tell you the genus richness of macroalgae (seaweed!) and 
-# the value of some environmental variables at 354 sites.
-# The extent of the dataset is global.
-# These data were used for Keith et al. 2014. Global Ecology & Biogeography 23:517-529.
-# and are free to download on Figshare ()
-
-mgr <- read.csv("MacroalgaeGenusRichness.csv")
-mgr
-# there is too much to see in one go!
-
-# Just look at the top few rows so you can see what is in the columns
-head(mgr)
-nrow(mgr) # how many rows are in the dataframe?
-
-# plot the points by longitude and latitude
-# can you kind of see the outlines of some land masses?
-plot(mgr$Lat,mgr$Long)
 
 # To decide which statistics to use, we need to know if the richness normally distributed?
 # Have a look at the data by plotting a histogram
@@ -51,7 +34,6 @@ sqrt.rich <- sqrt(mgr$GenusRich)
 hist(sqrt.rich)
 # much better!
 # a column already exists in the dataframe with square root of genus
-
 
 
 
@@ -124,7 +106,7 @@ plot(fit2)
 # based on Akaike's Information Criterion (AICc)
 
 # you need to first install the package MuMIn using the code below
-install.packages(MuMIn)
+install.packages("MuMIn")
 library(MuMIn)
 
 # create the model with variables you think make biological sense to include
@@ -140,7 +122,7 @@ fit.sel
 
 
 ############################################################
-#######               FOR YOUR REPORT 4               ######
+#######               FOR YOUR REPORT 3               ######
 #######                    START                      ######
 ############################################################
 
@@ -154,7 +136,7 @@ fit.sel
 
 
 ############################################################
-#######             FOR YOUR REPORT 4                 ######
+#######             FOR YOUR REPORT 3                 ######
 #######                     END                       ######
 ############################################################
 
