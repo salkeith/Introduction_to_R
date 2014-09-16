@@ -79,14 +79,14 @@ setwd("D://R folder")
 # you can output almost any spreadsheet or text file as a ".csv" file.
 # this is a very useful format.
 # read in the example csv file "species abundance.csv" with the following function.
-d <- read.csv("MacroalgaeGenusRichness.csv")
+mgr <- read.csv("MacroalgaeGenusRichness.csv")
 # here we have named it "d" but you can assign it any name you want
 
 # check it read in ok by looking at the first few rows
-head(d)
+head(mgr)
 # see more information about the data with the function below.
 # this will tell you the class of each column
-str(d)
+str(mgr)
 
 
 

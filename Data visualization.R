@@ -20,6 +20,9 @@
 demo(graphics)
 
 rm(list=ls())
+par(mfcol=c(1,1))
+
+
 
 
 #################################################
@@ -28,46 +31,87 @@ rm(list=ls())
 
 ################################################
 
-# Load the example dataset of species range sizes
-# There are many values in this vector. 
-# This is where R is very useful because you don't need to SEE the data,
-# you just need to know it is contained in an object.
-load("Range size.RData")
-# The object it will load is called "range.size"
+# Read in the example dataset: MacroalgaeGenusRichness.csv.
+# These data tell you the genus richness of macroalgae (seaweed!) and 
+# the value of some environmental variables at 354 sites.
+# The extent of the dataset is global.
+# These data were used for Keith et al. 2014. Global Ecology & Biogeography 23:517-529.
+# and are free to download on Figshare ()
+mgr <- read.csv("MacroalgaeGenusRichness.csv")
+# We have created an object called "mgr" that holds the data
+
+# have a look at the first few rows so you know what the dataset looks like
+head(mgr)
+# there are many more rows than you see here, type the next command to see how many
+nrow(mgr) 
+
+# for now, we will just focus on genus richness column
+# We can create a vector with these data only
+gr <- mgr$GenusRich
 
 # view the first 20 elements (species)
-head(range.size,20)
+head(gr,20)
 # how many species ranges are included in this object?
-length(range.size)
+length(gr)
 
 
 # draw a HISTOGRAM of a single variable
-hist(range.size)
+hist(gr)
 # specify number of breaks
-hist(range.size,breaks=20)
+hist(gr,breaks=20)
 # add a min and max value for the x axis
-hist(range.size,breaks=20,xlim=c(0,10000))
+hist(gr,breaks=20,xlim=c(0,500))
 # add main title and x axis label
-hist(range.size,breaks=20,xlim=c(0,10000),main="Species range size",xlab="Range size")
+hist(gr,breaks=20,xlim=c(0,500),main="Macroalgae Richness",xlab="Genus richness")
 # change the colour
-hist(range.size,breaks=20,xlim=c(0,10000),main="Species range size",xlab="Range size",col=3)
+hist(gr,breaks=20,xlim=c(0,500),main="Macroalgae Richness",xlab="Genus richness",col=3)
 
 
-############################################################
-####### SAVE A COPY OF THIS LAST PLOT FOR YOUR REPORT ######
-############################################################
+# Reproduce as a DENSITY plot
+# This gives you a smoothed line
 
-
-# reproduce as a DENSITY plot
-# first, calculate the density
-d <- density(range.size,bw="nrd")
+# First, calculate the density
+d <- density(gr,bw="nrd")
 # then plot the result
-plot(d,xlim=c(0,10000),col=2,main="Density AOO",xlab="Range size")
+plot(d,xlim=c(0,600),col=2,main="Density Genus Richness",xlab="Genus richness")
 # now get density of another variable
 # (here we have just added 1000 to each value in AOO)
-d2 <- density(range.size+1000,bw="nrd")
+d2 <- density(gr+100,bw="nrd")
 # plot lines on top of existing plot
 lines(d2)
+
+# BOXPLOTS
+# plot one variable as a boxplot.
+# Boxplots show the median (middle line), 1st & 3rd quartiles (box)
+boxplot(mgr$SST.MEAN)
+# now plot three variables side by side. Select the columns from the dataframe with [row,column]
+boxplot(mgr[,9:11])
+# add a notch - it looks nicer!
+boxplot(mgr[,9:11],notch=TRUE)
+
+
+############################################################
+#######               FOR YOUR REPORT 1               ######
+#######                    START                      ######
+############################################################
+
+## TRY PLOTTING SOME HISTORGRAMS OF OTHER VARIABLES IN THE DATASET
+## You can use the "hist" function below - remove the hashtag and replace the dots with a column name
+## build up a nice plot by inserting extra arguments as we did above.
+
+colnames(mgr)  # this will tell you what the columns are called
+
+# hist(mgr$....)
+
+## COPY AND PASTE AN EXAMPLE HISTOGRAM INTO YOUR REPORT
+## DISCUSS WHAT IT SHOWS
+
+############################################################
+#######               FOR YOUR REPORT 1               ######
+#######                     END                       ######
+############################################################
+
+
 
 
 
@@ -77,90 +121,77 @@ lines(d2)
 
 ################################################
 
-# read in the species abundance example data
-# and have a look at it
-sp <- read.csv("species abundance.csv")
-head(sp)  # view first few rows of the dataframe
-dim(sp)   # dimnesions of the datafrane (number of rows & columns)
-colnames(sp)  # view column names
-sp            # view full dataframe
+# plot data points by latitude and longitude
+plot(mgr$Long,mgr$Lat)  
+# think about what this plot looks like...
 
-# plot data points for one species - will plot them with x axis as the row order
-plot(sp$SpeciesA)
-plot(sp$SpeciesA,pch=4,col="red")
-# add additional points on top of plot
-points(sp$SpeciesC,pch=2,col="black")
-points(sp$SpeciesD,pch=2,col="green")
-
-# hmmm....where are SpeciesD? We know from looking at our dataframe there are more points
-# check what the max value is for SpeciesD
-max(sp$SpeciesD)
-
-# ah ha! So the points are above the y axis limit. Try again, set y limits
-plot(sp$SpeciesA,pch=4,col="red",ylim=c(0,80))
-points(sp$SpeciesC,pch=2,col="black")
-points(sp$SpeciesD,pch=2,col="green")
-
-# add lines through the points to the plot 
-lines(sp$SpeciesA,type="l",col="red")
-lines(sp$SpeciesC,type="l",col="black")
-lines(sp$SpeciesD,type="l",col="green")
 
 
 ############################################################
-####### SAVE A COPY OF THIS LAST PLOT FOR YOUR REPORT ######
+#######               FOR YOUR REPORT 2               ######
+#######                    START                      ######
+############################################################
+
+# How does genus richness vary with latitude?
+colnames(mgr)  # this will tell you what the columns are called
+# Does it fit the classic latitudinal gradient pattern?
+
+## COPY AND PASTE THIS PLOT INTO YOUR REPORT AND DESCRIBE
+
+############################################################
+#######               FOR YOUR REPORT 2               ######
+#######                     END                       ######
 ############################################################
 
 
-# plot two species against each other - are the abundances correlated?
-plot(sp$SpeciesA, sp$SpeciesB)
 
-# draw multiple plots in the same window
+# produce some scatterplots of the relationship between
+# (a) genus richness and one environmental variable
+# (b) between two environmental variables
+
+colnames(mgr)
+
+# Here's an example for (a)
+plot(mgr$GenusRich,mgr$SST.MEAN,pch=4,col="red")
+# you can replace "SST.MEAN" with the name of an alternative column 
+# to plot a different variable against richness
+
+# Here's an example for (b)
+plot(mgr$SST.MAX,mgr$SST.MIN,pch=1,col="blue")
+# you can replace "SST.MAX" and/or "SST.MIN" with the name of an alternative column 
+# to plot a different variable against richness
+
+# Have a look at how the environmental variables in this dataset are related to each other
+
+# Plot multiple panels in the same window
+# The following code will set up a 2 x 2 plot
 par(mfcol=c(2,2))
-plot(sp$SpeciesA,type="l")
-plot(sp$SpeciesB,type="l")
-plot(sp$SpeciesC,type="l")
-plot(sp$SpeciesD,type="l")
+plot(mgr$SST.MAX,mgr$SST.MIN,pch=1,col="blue")
+plot(mgr$SST.MAX,mgr$SST.MEAN,pch=1,col="black")
+plot(mgr$SST.MAX,mgr$PAR,pch=1,col="red")
+plot(mgr$SST.MAX,mgr$SALINITY,pch=1,col="dark green")
 
-
-# plot abundance at different points in time as a bar plot
-barplot(sp$SpeciesA,xlab="time",ylab="abundance",main="Species A",names.arg=1:25)
-# switch x axis names to vertical
-barplot(sp$SpeciesA,xlab="time",ylab="abundance",main="Species A",names.arg=1:25,las=2)
-
-
-
-
-#################################################
-
-# 4. MULTIVARIATE DATA
-
-################################################
-
-# use on dataframe or matrix
-
-# plot one variable as a boxplot.
-# Boxplots show the median (middle line), 1st & 3rd quartiles (box), and the rest as points
-boxplot(sp$Temp)
-# now plot two variables side by side. Select the columns from the dataframe with [,]
-boxplot(sp[,7:8])
-# add a notch - it looks nicer!
-boxplot(sp[,7:8],notch=TRUE)
-
-# quicker than creating one plot then adding lines separately
-# and avoids issues of x and y limits
-matplot(sp[,2:5])
-# difficult to see what's going on so now plot them as lines
-# and add limits to the y axis
-matplot(sp[,2:5],type="l",ylim=c(0,100))
-# add a legend - here you are specifying where to put it,
-# what each entry should be called, what line types and colours they are
-legend("topleft",colnames(sp[,2:5]),lty=1:4,col=1:4)
 
 
 ############################################################
-####### SAVE A COPY OF THIS LAST PLOT FOR YOUR REPORT ######
+#######               FOR YOUR REPORT 3               ######
+#######                    START                      ######
 ############################################################
+
+## PLOT SOME SCATTERPLOTS OF OTHER VARIABLE COMBINATIONS IN THE DATASET
+## build up a nice plot by inserting extra arguments as we did above.
+## Many of the arguments in hist can also be used for plot.
+
+colnames(mgr)  # this will tell you what the columns are called
+
+## COPY AND PASTE INTERESTING SCATTERPLOTS INTO YOUR REPORT
+## AND DISCUSS THEM
+
+############################################################
+#######               FOR YOUR REPORT 3               ######
+#######                     END                       ######
+############################################################
+
 
 
 
