@@ -1,4 +1,4 @@
-Introduction_to_Macroecological Data Analysis in R
+Introduction to Macroecological Data Analysis in R
 ====================================================
 
 Developed for University of Copenhagen Macroecology & Community Ecology Masters course 2014
